@@ -11,6 +11,13 @@ import subprocess
 import sys
 from datetime import datetime, timezone, timedelta
 
+# Ensure UTF-8 output on Windows consoles if needed
+if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 # Configuration
 MIN_COMMITS = 1
 MAX_COMMITS = 10
