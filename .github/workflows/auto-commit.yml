@@ -1,0 +1,34 @@
+name: Daily Auto Commit
+
+on:
+  schedule:
+    # Runs everyday at 02:00 UTC (09:00 WIB / UTC+7)
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Configure Git Identity
+        run: |
+          git config --global user.name "Isronursalaam"
+          git config --global user.email "Isronursalaam@gmail.com"
+
+      - name: Execute Auto Commit (Random 1-10)
+        run: |
+          python auto_commit.py --push
